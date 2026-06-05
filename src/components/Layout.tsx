@@ -249,8 +249,32 @@ export function Layout() {
             </div>
           </div>
 
-          <div className="border-t border-gray-200/50 dark:border-gray-800/50 mt-8 pt-8 text-center text-sm text-gray-500">
-            <p>&copy; 2026 China Motors TJ. Все права защищены.</p>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-t border-gray-200/50 dark:border-gray-800/50 mt-8 pt-8 text-sm text-gray-500">
+            <p>&copy; {new Date().getFullYear()} China Motors TJ. Все права защищены.</p>
+            <div className="flex items-center gap-2">
+              <span>Разработано в</span>
+              <a 
+                href="https://www.learn-it-academy.site/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="group relative inline-flex items-center justify-center gap-2 px-3 py-1.5 overflow-hidden rounded-lg bg-[#0a0a0a] border border-[#222] transition-all duration-500 hover:border-[#F24E4E]/50 hover:bg-[#111] hover:shadow-[0_0_15px_rgba(242,78,78,0.2)] hover:-translate-y-0.5"
+              >
+                {/* Glow sweep effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#F24E4E]/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+                
+                {/* Stylized cube icon */}
+                <svg className="relative w-4 h-4 text-[#F24E4E] drop-shadow-[0_0_0_rgba(242,78,78,0)] group-hover:drop-shadow-[0_0_8px_rgba(242,78,78,0.8)] transition-all duration-300 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                  <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+
+                {/* Animated text */}
+                <span className="relative text-xs font-bold tracking-[0.15em] text-[#A3A3A3] group-hover:text-white transition-colors duration-300 uppercase">
+                  Learn <span className="text-[#F24E4E] drop-shadow-[0_0_0_rgba(242,78,78,0)] group-hover:drop-shadow-[0_0_8px_rgba(242,78,78,0.8)] transition-all duration-300">IT</span>
+                </span>
+              </a>
+            </div>
           </div>
         </div>
       </footer>
