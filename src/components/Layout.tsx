@@ -61,13 +61,13 @@ export function Layout() {
           <div className="max-w-[1400px] mx-auto px-6 py-3">
             <div className="flex items-center justify-between">
               <Link to="/" className="flex items-center gap-3 group">
-                <motion.div
-                  className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/20"
+                <motion.img
+                  src="/logo.png"
+                  alt="China Motors Logo"
+                  className="w-10 h-10 rounded-xl shadow-lg shadow-blue-500/20"
                   whileHover={{ scale: 1.05, rotate: 5 }}
                   transition={{ type: 'spring', stiffness: 400 }}
-                >
-                  <span className="font-bold text-white text-lg tracking-tight font-display">CM</span>
-                </motion.div>
+                />
                 <div className="hidden sm:block">
                   <h1 className="font-bold text-lg tracking-tight uppercase font-display bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
                     China Motors
@@ -205,9 +205,7 @@ export function Layout() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
-                  <span className="font-bold text-white font-display tracking-tight">CM</span>
-                </div>
+                <img src="/logo.png" alt="China Motors Logo" className="w-10 h-10 rounded-xl shadow-lg shadow-blue-500/20" />
                 <h3 className="font-bold text-lg tracking-tight uppercase font-display">China Motors</h3>
               </div>
               <p className="text-sm text-gray-600 dark:text-gray-400">
