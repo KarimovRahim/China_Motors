@@ -85,7 +85,7 @@ export function Layout() {
                   <h1 className="font-bold text-lg tracking-tight uppercase font-display bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent group-hover:text-blue-500 transition-colors">
                     China Motors
                   </h1>
-                  <p className="text-[10px] uppercase font-medium tracking-wider text-gray-500 dark:text-gray-400">Таджикистан</p>
+                  <p className="text-[10px] uppercase font-medium tracking-wider text-gray-500 dark:text-gray-400">Худжанд [Таджикистан]</p>
                 </div>
               </Link>
 
