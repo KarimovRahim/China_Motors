@@ -324,7 +324,7 @@ export function Layout() {
             >
               <div className="absolute inset-0 bg-blue-500/20 dark:bg-blue-500/10 rounded-[3rem] blur-3xl animate-pulse" />
               <img
-                src="/favicon.svg"
+                src="/logo.png"
                 alt="China Motors Extended Logo"
                 className="w-64 h-64 md:w-96 md:h-96 rounded-[2.5rem] shadow-2xl shadow-blue-500/30 relative z-10"
               />
