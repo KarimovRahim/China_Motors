@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Zap, TrendingUp, Filter, Search, Battery, Gauge, Timer, ShoppingCart } from 'lucide-react';
+import { Heart, Zap, TrendingUp, Filter, Search, Battery, Gauge, Timer, ShoppingCart, X } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
 import { carsApi, favoritesApi, ordersApi } from '../lib/supabaseClient';
 
 const filters = [
@@ -31,7 +32,8 @@ export function CatalogPage() {
   const [hoveredCar, setHoveredCar] = useState<any>(null);
   const [priceRange, setPriceRange] = useState([0, 500000]);
   const [showOnlyInStock, setShowOnlyInStock] = useState(false);
-  
+  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+
   // Модалка заказа
   const [showOrderModal, setShowOrderModal] = useState(false);
   const [selectedCar, setSelectedCar] = useState<any>(null);
@@ -178,17 +180,33 @@ export function CatalogPage() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Filters Sidebar */}
+        <div className="flex flex-col lg:grid lg:grid-cols-4 gap-6">
+          {/* Filters Sidebar Desktop / Mobile Modal Content */}
           <motion.div
-            className="lg:col-span-1"
+            className={`fixed inset-0 z-50 lg:static lg:z-auto lg:block lg:col-span-1 ${isMobileFiltersOpen ? 'block' : 'hidden'}`}
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div className="sticky top-24 space-y-5">
-              <div className="p-5 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
-                <div className="flex items-center gap-2 mb-4">
+            {/* Overlay for mobile modal */}
+            {isMobileFiltersOpen && (
+              <div 
+                className="absolute inset-0 bg-black/60 lg:hidden"
+                onClick={() => setIsMobileFiltersOpen(false)}
+              />
+            )}
+            
+            <div className="relative h-full lg:h-auto bg-white dark:bg-black lg:bg-transparent lg:dark:bg-transparent w-[85%] sm:w-[350px] lg:w-auto p-5 lg:p-0 overflow-y-auto lg:overflow-visible shadow-2xl lg:shadow-none delay-100 lg:sticky lg:top-24 space-y-5">
+              
+              <div className="flex justify-between items-center lg:hidden mb-4">
+                <h3 className="font-bold text-xl">Фильтры</h3>
+                <button onClick={() => setIsMobileFiltersOpen(false)} className="p-2 bg-gray-100 dark:bg-gray-800 rounded-full">
+                  <X className="w-5 h-5 text-gray-900 dark:text-white" />
+                </button>
+              </div>
+
+              <div className="lg:p-5 lg:rounded-2xl lg:bg-white lg:dark:bg-gray-900 border-none lg:border lg:border-gray-200 lg:dark:border-gray-800">
+                <div className="hidden lg:flex items-center gap-2 mb-4">
                   <Filter className="w-5 h-5 text-blue-600" />
                   <h3 className="font-bold text-lg">Фильтры</h3>
                 </div>
@@ -274,7 +292,7 @@ export function CatalogPage() {
                 </div>
               </div>
 
-              <div className="p-5 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
+              <div className="lg:p-5 lg:rounded-2xl lg:bg-white lg:dark:bg-gray-900 border-none lg:border lg:border-gray-200 lg:dark:border-gray-800">
                 <label className="text-sm font-medium mb-2 block">Сортировка</label>
                 <select
                   value={sortBy}
@@ -308,11 +326,19 @@ export function CatalogPage() {
           </motion.div>
 
           {/* Cars Grid */}
-          <div className="lg:col-span-3">
-            <div className="mb-4 flex justify-between items-center">
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
+          <div className="lg:col-span-3 order-first lg:order-none">
+            <div className="mb-4 flex flex-row justify-between items-center bg-gray-50 dark:bg-gray-900 p-3 rounded-xl lg:bg-transparent lg:p-0">
+              <p className="text-gray-600 dark:text-gray-400 text-sm font-medium">
                 Найдено: {filteredCars.length} авто
               </p>
+              
+              <button 
+                onClick={() => setIsMobileFiltersOpen(true)}
+                className="flex items-center gap-2 lg:hidden px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm font-medium text-sm hover:bg-gray-50"
+              >
+                <Filter className="w-4 h-4 text-blue-600" />
+                Фильтры
+              </button>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
