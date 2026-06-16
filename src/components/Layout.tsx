@@ -1,4 +1,4 @@
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { Moon, Sun, Menu, X, ChevronDown, Phone, MapPin } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useState, useEffect } from 'react';
@@ -8,9 +8,11 @@ import { ScrollToTop } from './ScrollToTop';
 export function Layout() {
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [isLogoExpanded, setIsLogoExpanded] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,16 +62,27 @@ export function Layout() {
         >
           <div className="max-w-[1400px] mx-auto px-6 py-3">
             <div className="flex items-center justify-between">
-              <Link to="/" className="flex items-center gap-3 group">
+              <Link 
+                to="/" 
+                className="flex items-center gap-3 group"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (location.pathname === '/') {
+                    setIsLogoExpanded(true);
+                  } else {
+                    navigate('/');
+                  }
+                }}
+              >
                 <motion.img
                   src="/logo.png"
                   alt="China Motors Logo"
-                  className="w-10 h-10 rounded-xl shadow-lg shadow-blue-500/20"
+                  className="w-11 h-11 rounded-xl shadow-lg shadow-blue-500/20"
                   whileHover={{ scale: 1.05, rotate: 5 }}
                   transition={{ type: 'spring', stiffness: 400 }}
                 />
                 <div className="hidden sm:block">
-                  <h1 className="font-bold text-lg tracking-tight uppercase font-display bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+                  <h1 className="font-bold text-lg tracking-tight uppercase font-display bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent group-hover:text-blue-500 transition-colors">
                     China Motors
                   </h1>
                   <p className="text-[10px] uppercase font-medium tracking-wider text-gray-500 dark:text-gray-400">Таджикистан</p>
@@ -201,49 +214,63 @@ export function Layout() {
 
       {/* Footer */}
       <footer className="bg-white/80 dark:bg-black/80 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-800/50">
-        <div className="max-w-[1400px] mx-auto px-6 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <img src="/logo.png" alt="China Motors Logo" className="w-10 h-10 rounded-xl shadow-lg shadow-blue-500/20" />
-                <h3 className="font-bold text-lg tracking-tight uppercase font-display">China Motors</h3>
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-8 md:py-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 text-center md:text-left">
+            <div className="flex flex-col items-center md:items-start">
+              <div 
+                className="flex items-center gap-2 mb-4 w-fit cursor-pointer group"
+                onClick={() => setIsLogoExpanded(true)}
+              >
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
+                  <motion.img 
+                    src="/logo.png" 
+                    alt="China Motors Logo" 
+                    className="w-10 h-10 rounded-xl shadow-lg shadow-blue-500/20"
+                    whileHover={{ scale: 1.05, rotate: -5 }}
+                  />
+                </div>
+                <h3 className="font-bold text-lg tracking-tight uppercase font-display group-hover:text-blue-500 transition-colors">China Motors</h3>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-gray-600 dark:text-gray-400 max-w-xs md:max-w-none">
                 Самые доступные и качественные автомобили из Китая в Таджикистане. Мы помогаем вам найти идеальное авто по лучшей цене, с полным сопровождением на каждом этапе импорта.
               </p>
             </div>
 
-            <div>
-              <h4 className="font-medium mb-4">Услуги</h4>
-              <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                <li><Link to="/configurator" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Конфигуратор</Link></li>
-                <li><Link to="/catalog" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Каталог авто</Link></li>
-                <li><Link to="/tracking" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Отслеживание</Link></li>
-                <li><Link to="/compare" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Сравнение</Link></li>
-                <li><Link to="/services" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Все услуги</Link></li>
-              </ul>
+            <div className="flex justify-center md:justify-start lg:ml-12">
+              <div>
+                <h4 className="font-medium mb-4 text-gray-900 dark:text-white">Услуги</h4>
+                <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                  <li><Link to="/configurator" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Конфигуратор</Link></li>
+                  <li><Link to="/catalog" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Каталог авто</Link></li>
+                  <li><Link to="/tracking" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Отслеживание</Link></li>
+                  <li><Link to="/compare" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Сравнение</Link></li>
+                  <li><Link to="/services" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Все услуги</Link></li>
+                </ul>
+              </div>
             </div>
 
-            <div>
-              <h4 className="font-medium mb-4">Контакты</h4>
-              <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                <li className="flex items-center gap-2">
-                  <Phone className="w-4 h-4" />
-                  <a href="tel:+992990800051">+992 99 080 0051</a>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Phone className="w-4 h-4" />
-                  <a href="tel:+992928011170">+992 92 801 1170</a>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Phone className="w-4 h-4" />
-                  <a href="tel:+992902888880">+992 90 288 8880</a>
-                </li>
-                <li className="mt-4 flex items-center gap-2">
-                  <MapPin className="w-4 h-4" />
-                  <span>Худжанд, Автосалон Укоб <br /> (напротив аквопарка)</span>
-                </li>
-              </ul>
+            <div className="flex justify-center md:justify-start">
+              <div>
+                <h4 className="font-medium mb-4 text-gray-900 dark:text-white">Контакты</h4>
+                <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                  <li className="flex items-center justify-center md:justify-start gap-2">
+                    <Phone className="w-4 h-4" />
+                    <a href="tel:+992990800051" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">+992 99 080 0051</a>
+                  </li>
+                  <li className="flex items-center justify-center md:justify-start gap-2">
+                    <Phone className="w-4 h-4" />
+                    <a href="tel:+992928011170" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">+992 92 801 1170</a>
+                  </li>
+                  <li className="flex items-center justify-center md:justify-start gap-2">
+                    <Phone className="w-4 h-4" />
+                    <a href="tel:+992902888880" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">+992 90 288 8880</a>
+                  </li>
+                  <li className="mt-4 flex items-center justify-center md:justify-start gap-2">
+                    <MapPin className="w-4 h-4 shrink-0" />
+                    <span className="text-left">Худжанд, Автосалон Укоб <br /> (напротив аквопарка)</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
 
@@ -276,6 +303,35 @@ export function Layout() {
           </div>
         </div>
       </footer>
+
+      {/* Fullscreen Logo Modal */}
+      <AnimatePresence>
+        {isLogoExpanded && (
+          <motion.div
+            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            animate={{ opacity: 1, backdropFilter: "blur(16px)" }}
+            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            transition={{ duration: 0.4 }}
+            onClick={() => setIsLogoExpanded(false)}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-white/60 dark:bg-black/80 cursor-pointer"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 10 }}
+              transition={{ type: "spring", damping: 25, stiffness: 200, delay: 0.1 }}
+              className="relative p-2"
+            >
+              <div className="absolute inset-0 bg-blue-500/20 dark:bg-blue-500/10 rounded-[3rem] blur-3xl animate-pulse" />
+              <img
+                src="/favicon.svg"
+                alt="China Motors Extended Logo"
+                className="w-64 h-64 md:w-96 md:h-96 rounded-[2.5rem] shadow-2xl shadow-blue-500/30 relative z-10"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
